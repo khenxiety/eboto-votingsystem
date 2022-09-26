@@ -1,0 +1,85 @@
+<div class="page-wrapper uk-padding-small">
+  <app-breadcrumb [location]="'Manage Positions'"></app-breadcrumb>
+
+  <header class="header uk-margin-small-bottom">
+    <h4>Positions List</h4>
+  </header>
+
+  <div class="mat-elevation-z1">
+    <div class="table-header uk-padding-small">
+      <div class="table-header-container">
+        <div class="left-table-header">
+          <button class="uk-button uk-button-primary">New</button>
+        </div>
+        <div class="">
+          <form class="uk-search uk-search-default">
+            <span class="uk-search-icon-flip" uk-search-icon></span>
+            <input class="uk-search-input" type="search" placeholder="Search" />
+          </form>
+        </div>
+      </div>
+    </div>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+    >
+      <ng-container matColumnDef="position">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by number"
+        >
+          Description
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by name"
+        >
+          Max Vote
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="buttons" style="display: flex">
+            <button
+              type="button"
+              class="uk-button uk-button-primary uk-margin-small-right"
+              style="padding-inline: 1em"
+            >
+              <span uk-icon="icon: pencil; ratio: 1"></span>
+            </button>
+            <button
+              type="button"
+              class="uk-button uk-button-danger"
+              style="padding-inline: 1em"
+            >
+              <span uk-icon="icon: trash; ratio: 1"></span>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+
+h1,h2,h3,h4,h5{
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    text-transform: capitalize;
+}
+.page-wrapper{
+    padding-top: 80px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #efefef;
+    position: relative;
+}
+
+.candidates{
+    display: flex;
+    flex-direction: column;
+
+    .candidate-item{
+        display: flex;
+        align-items: center;
+
+
+        &>*+*{
+            margin-left: 30px;
+        }
+    }
+}
