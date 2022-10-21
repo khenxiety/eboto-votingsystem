@@ -7,7 +7,13 @@ h1,h2,h3,h4,h5{
     margin: 0;
 }
 
+.page-wrapper{
+    position: relative;
+    min-height: calc(100vh - 80px);
 
+
+    
+}
 .table-header{
     display: block;
     background-color: #efefef;
@@ -22,6 +28,9 @@ h1,h2,h3,h4,h5{
     }
 }
 
+td.mat-cell{
+    text-transform: capitalize;
+}
 
 th.mat-header-cell{
     background-color: #efefef;

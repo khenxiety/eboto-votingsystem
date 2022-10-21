@@ -8,8 +8,11 @@
   <div class="content uk-margin-large-top uk-text-center">
     <div class="current-title">
       <h3>
-        BatStateU Alangilan SC Election 2022
-        <a (click)="openEditModal()"
+        <div uk-spinner *ngIf="isLoading"></div>
+
+        <span *ngIf="!isLoading">{{ title[0]?.title }}</span>
+
+        <a (click)="openEditModal()" *ngIf="!isLoading"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -28,7 +31,7 @@
         ></a>
       </h3>
 
-      <small>Current title of the session. </small>
+      <small *ngIf="!isLoading">Current title of the session. </small>
     </div>
   </div>
 
@@ -55,7 +58,13 @@
           <legend class="uk-legend">Enter new session title</legend>
 
           <div class="uk-margin">
-            <input class="uk-input" type="text" placeholder="Input" />
+            <input
+              class="uk-input"
+              type="text"
+              placeholder="Input"
+              name="title"
+              [(ngModel)]="titleChange"
+            />
           </div>
 
           <div class="uk-margin">
@@ -71,8 +80,9 @@
                 (click)="onSave()"
                 type="button"
                 class="uk-button uk-button-primary uk-margin-small-left"
+                [disabled]="isLoading"
               >
-                Save
+                {{ isLoading ? "Please wait.." : "Save " }}
               </button>
             </div>
           </div>

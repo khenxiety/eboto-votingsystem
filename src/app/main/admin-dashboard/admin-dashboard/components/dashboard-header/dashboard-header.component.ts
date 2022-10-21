@@ -12,6 +12,6 @@ export class DashboardHeaderComponent implements OnInit {
   ngOnInit(): void {}
 
   logOut() {
-    this.router.navigate(['login']);
+    this.router.navigate(['admin-login']);
   }
 }

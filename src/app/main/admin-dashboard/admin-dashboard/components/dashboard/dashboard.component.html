@@ -3,7 +3,7 @@
 
   <div class="content">
     <div class="total">
-      <header class="uk-margin-small-bottom">
+      <header class="header">
         <h4>Dashboard</h4>
       </header>
       <div
@@ -18,7 +18,7 @@
             <div class="uk-child-width-expand@s" uk-grid style="height: 100%">
               <div class="col">
                 <div class="text-wrapper">
-                  <h3>2</h3>
+                  <h3>{{ positions.length }}</h3>
                   <small>Total no. of Positions</small>
                 </div>
               </div>
@@ -55,7 +55,7 @@
             <div class="uk-child-width-expand@s" uk-grid style="height: 100%">
               <div class="col">
                 <div class="text-wrapper">
-                  <h3>2</h3>
+                  <h3>{{ candidates.length }}</h3>
                   <small>Total no. of Candidates</small>
                 </div>
               </div>
@@ -84,7 +84,7 @@
             <div class="uk-child-width-expand@s" uk-grid style="height: 100%">
               <div class="col">
                 <div class="text-wrapper">
-                  <h3>2</h3>
+                  <h3>{{ voters.length }}</h3>
                   <small>Total no. of Voters</small>
                 </div>
               </div>
@@ -118,7 +118,7 @@
             <div class="uk-child-width-expand@s" uk-grid style="height: 100%">
               <div class="col">
                 <div class="text-wrapper">
-                  <h3>2</h3>
+                  <h3>{{ voteds.length }}</h3>
                   <small>Voters Voted</small>
                 </div>
               </div>
@@ -153,17 +153,27 @@
       </header>
 
       <div
-        class="uk-grid-small uk-child-width-expand@s uk-text-center uk-margin-small-top"
+        class="uk-grid-small uk-child-width-expand@l uk-margin-small-top"
         uk-grid
+        *ngFor="let position of positions"
       >
         <div>
-          <div class="uk-card uk-card-default uk-card-body">
-            President session
-          </div>
-        </div>
-        <div>
-          <div class="uk-card uk-card-default uk-card-body">
-            President session
+          <div class="candidates">
+            <dl>
+              <dt>{{ position.description }}</dt>
+              <div class="candidates-item" *ngFor="let candidate of candidates">
+                <dd
+                  [ngClass]="'percentage percentage-' + candidate.votes.length"
+                  *ngIf="candidate.position == position.description"
+                >
+                  <span class="text"
+                    >{{ candidate.candidate }} ({{
+                      candidate.votes.length
+                    }})</span
+                  >
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
       </div>

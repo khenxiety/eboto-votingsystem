@@ -8,13 +8,13 @@
       </div>
       <div class="uk-navbar-right">
         <button class="uk-button clear-btn" type="button">
-          Voter
+          {{ userData[0]?.username }}
           <span class="uk-margin-small-left" uk-icon="chevron-down"></span>
         </button>
         <div uk-dropdown>
           <ul class="uk-nav uk-dropdown-nav">
             <li><a href="#">Help</a></li>
-            <li><a href="#">Settings</a></li>
+            <li><a href="#update-password" uk-toggle>Update Password</a></li>
             <li class="uk-nav-divider"></li>
             <li><a (click)="logOut()">Logout</a></li>
           </ul>
@@ -23,3 +23,33 @@
     </nav>
   </div>
 </header>
+
+<div id="update-password" uk-modal>
+  <div class="uk-modal-dialog">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <div class="uk-modal-header">
+      <h4>Update Password</h4>
+    </div>
+    <div class="uk-modal-body">
+      Do you want to update your Password?
+      <br />
+      <small
+        ><strong>Note:</strong>If you didn't find the password reset email in
+        you inbox, please check your <strong>spam</strong> emails.</small
+      >
+    </div>
+    <div class="uk-modal-footer uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">
+        Cancel
+      </button>
+      <button
+        class="uk-button uk-button-primary uk-margin-small-left uk-modal-close"
+        type="button"
+        id="save-position"
+        (click)="updatePassword()"
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+</div>

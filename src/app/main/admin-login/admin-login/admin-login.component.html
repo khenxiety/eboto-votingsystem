@@ -21,7 +21,7 @@
                 <input
                   class="uk-input"
                   type="text"
-                  placeholder="Voters ID"
+                  placeholder="Admin Username"
                   formControlName="votersId"
                 />
               </div>
@@ -44,7 +44,7 @@
                   #input
                   class="uk-input"
                   type="password"
-                  placeholder="Password"
+                  placeholder="Admin Password"
                   formControlName="password"
                 />
               </div>
@@ -72,8 +72,10 @@
                 type="button"
                 class="uk-button btn-red uk-width-1-1"
                 (click)="onSubmit()"
+                [disabled]="isLoading"
               >
-                Login
+                <div *ngIf="isLoading" uk-spinner></div>
+                {{ !isLoading ? "Login" : "" }}
               </button>
             </div>
           </fieldset>

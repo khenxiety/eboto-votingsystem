@@ -15,9 +15,32 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { VotersSidePageComponent } from './main/home-page/voters-side-page/voters-side-page.component';
 import { VotersSideModule } from './main/home-page/voters-side.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FirestoreService } from './services/firestore.service';
+import {
+  provideAnalytics,
+  getAnalytics,
+  ScreenTrackingService,
+  UserTrackingService,
+} from '@angular/fire/analytics';
+import { VoteSubmittedComponent } from './main/home-page/vote-submitted/vote-submitted.component';
+import { VoterLoginComponent } from './main/voter-login/voter-login.component';
+import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
+import { VoteResultComponent } from './main/vote-result/vote-result.component';
+import { VotesHomepageComponent } from './main/votes-homepage/votes-homepage.component';
+import { VoterRegistrationComponent } from './main/voter-registration/voter-registration.component';
 
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 @NgModule({
-  declarations: [AppComponent, AdminLoginComponent],
+  declarations: [
+    AppComponent,
+    AdminLoginComponent,
+    VoterLoginComponent,
+    VoteResultComponent,
+    VotesHomepageComponent,
+    VoterRegistrationComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,8 +55,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     VotersSideModule,
     FormsModule,
     ReactiveFormsModule,
+    provideAnalytics(() => getAnalytics()),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      },
+    }),
   ],
-  providers: [],
+  providers: [FirestoreService, ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

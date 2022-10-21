@@ -3,6 +3,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import {
+  collection,
+  doc,
+  Firestore,
+  getDocs,
+  updateDoc,
+} from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-votes',
@@ -10,14 +19,25 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   styleUrls: ['./votes.component.scss'],
 })
 export class VotesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name','votes', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['position', 'name', 'votes', 'action'];
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  isLoading: boolean = false;
+  positions: Array<any> = [];
+  data: Array<any> = [];
+  dataSource = new MatTableDataSource<PeriodicElement>(this.data);
+  interval: any;
+  constructor(
+    private _liveAnnouncer: LiveAnnouncer,
+    private firestore: Firestore,
+    private toastr: ToastrService,
+    private firestoreService: FirestoreService
+  ) {}
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   ngAfterViewInit() {
+    this.getData();
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -29,25 +49,86 @@ export class VotesComponent implements AfterViewInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.getPosition();
+    this.getData();
+    // this.interval = setInterval(() => {
+    this.getData();
+    // }, 4000);
+  }
+  getPosition() {
+    const dbInstance = collection(this.firestore, 'positions');
+
+    getDocs(dbInstance)
+      .then((res: any) => {
+        this.positions = [
+          ...res.docs.map((doc: any) => {
+            return { ...doc.data(), id: doc.id };
+          }),
+        ];
+      })
+      .catch((err: any) => {
+        console.log(err);
+        this.isLoading = false;
+      });
+  }
+  filter(event: any) {
+    this.dataSource.filter = event.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  getData() {
+    this.firestoreService.getVotesResult().subscribe((res) => {
+      this.data = res;
+      this.dataSource = new MatTableDataSource<PeriodicElement>(this.data);
+      this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
+    });
+  }
+
+  reset() {
+    let data = {
+      votes: [],
+    };
+    this.isLoading = true;
+    this.data.forEach((res: any) => {
+      console.log(res.id);
+      const dbInstance = doc(this.firestore, 'votes', res.id);
+
+      updateDoc(dbInstance, data)
+        .then((res: any) => {
+          console.log(res);
+          this.getData();
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    });
+    setTimeout(() => {
+      this.toastr.success('Resets the Votes Sucessfully');
+    }, 1000);
+  }
 }
 
 export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  candidate: string;
+  candidateId: string;
+  position: string;
+  votes: any;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
+// const ELEMENT_DATA: PeriodicElement[] = [
+//   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+//   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+//   { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+//   { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
+//   { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
+//   { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
+//   { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
+//   { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
+//   { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
+//   { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+// ];

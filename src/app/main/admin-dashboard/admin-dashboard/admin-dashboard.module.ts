@@ -16,6 +16,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 const routes: Routes = [
   {
     path: 'admin-dashboard',
@@ -28,6 +31,10 @@ const routes: Routes = [
       {
         path: 'votes',
         component: VotesComponent,
+      },
+      {
+        path: 'manage-users',
+        component: ManageUsersComponent,
       },
       {
         path: 'manage-voters',
@@ -76,8 +83,17 @@ const routes: Routes = [
     BallotPositionsComponent,
     ElectionTitleComponent,
     BreadcrumbComponent,
-    
+    ManageUsersComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes),MatPaginatorModule,MatTableModule,MatSortModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgChartsModule,
+  ],
 })
 export class AdminDashboardModule {}

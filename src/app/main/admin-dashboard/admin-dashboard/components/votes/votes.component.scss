@@ -6,7 +6,13 @@ h1,h2,h3,h4,h5{
     font-family: 'Roboto', sans-serif;
     margin: 0;
 }
+.page-wrapper{
+    position: relative;
+    min-height: calc(100vh - 80px);
 
+
+    
+}
 
 .table-header{
     display: block;
@@ -21,7 +27,9 @@ h1,h2,h3,h4,h5{
         justify-content: space-between;
     }
 }
-
+td.mat-cell{
+    text-transform: capitalize;
+}
 
 th.mat-header-cell{
     background-color: #efefef;
