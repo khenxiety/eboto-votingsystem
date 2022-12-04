@@ -245,7 +245,7 @@ export class ManageCandidatesComponent implements AfterViewInit {
     addDoc(votesInstance, votes)
       .then((res: any) => {
         this.selectedFile = '';
-        this.toastr.success('Candidate Updatted Successfully!');
+        this.toastr.success('Candidate Updated Successfully!');
         this.ngAfterViewInit();
         this.isLoading = false;
       })

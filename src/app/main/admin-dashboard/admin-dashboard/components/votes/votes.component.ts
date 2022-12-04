@@ -19,7 +19,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   styleUrls: ['./votes.component.scss'],
 })
 export class VotesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'votes', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'votes'];
 
   isLoading: boolean = false;
   positions: Array<any> = [];

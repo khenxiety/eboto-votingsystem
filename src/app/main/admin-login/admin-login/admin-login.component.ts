@@ -51,9 +51,12 @@ export class AdminLoginComponent implements OnInit {
       this.loginForm.value.votersId === 'admin' &&
       this.loginForm.value.password === 'admin1234'
     ) {
-      this.toastr.success('Hello Voter!', 'Toastr fun!');
+      this.toastr.success('Login Successully');
       this.router.navigate(['admin-dashboard']);
 
+      return;
+    } else {
+      this.toastr.error('Login Failed', 'Invalid Credentials');
       return;
     }
     // this.isLoading = true;

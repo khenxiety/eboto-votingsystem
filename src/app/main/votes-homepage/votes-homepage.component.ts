@@ -41,6 +41,8 @@ export class VotesHomepageComponent implements OnInit {
     console.log(b);
   }
 
+ 
+
   getPositions() {
     const dbInstance = collection(this.firestore, 'positions');
     const q = query(dbInstance, orderBy('maximumVote', 'asc'));

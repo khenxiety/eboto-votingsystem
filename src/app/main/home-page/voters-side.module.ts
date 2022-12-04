@@ -13,6 +13,7 @@ const routes: Routes = [
     component: VotersSidePageComponent,
     canActivate: [AuthGuard],
   },
+
   {
     path: 'vote-complete',
     component: VoteSubmittedComponent,
